@@ -111,4 +111,4 @@ plot(householdPOSIXct, householdGRP, type = "l", xlab = "datetime", ylab = "Glob
 dev.off()
 
 print("plot4.png has been created. Celebrate with a rabbit.")
-cat("  /)_/) \n ( . .) \nC(\")(\") \n")
+cat("\n  /)_/) \n ( . .) \nC(\")(\") \n\n")
