@@ -1,4 +1,4 @@
-## Plot1.R - Global Active Power ~ Frequency
+## Plot2.R - Global Active Power on two days
 ## Access, read and plot the data following the assignment.
 
 
@@ -51,15 +51,40 @@ as.numeric.factor <- function(x) {as.numeric(levels(x))[x]}
 householdGAP <- as.numeric.factor(householdData$Global_active_power[dateRange])
 
 
+# Coerce the data into time
+as.POSIXct.factor <- function(time, date) {
+    
+    # Coerce the time factors and date factors into characters
+    time_char <- as.character(levels(time))[time]
+    date_char <- as.character(levels(date))[date]
+    
+    # Vector of empty POSIXct
+    time_date_vector <- as.POSIXct(rep(NA, length(time_char)))
+    
+    for (x in seq(length(time_char))) {
+    
+            # Concatenate the data and convert it into POSIXct
+        date_time <- paste(date_char[x],time_char[x])
+        date_time_POSIXct <- as.POSIXct(date_time, format="%d/%m/%Y %H:%M:%S")
+        
+        # Add current iteration to the vector of POSIXct
+        time_date_vector[x] <- date_time_POSIXct
+    }
+    time_date_vector
+}
+
+householdPOSIXct <- as.POSIXct.factor(householdData$Time[dateRange], householdData$Date[dateRange])
+
+
 ## Step 3 - Plot
 
 # Open a connection with the .png
-png(file = "plot1.png", bg = "transparent")
+png(file = "plot2.png", bg = "transparent")
 
-# Plot the histogram
-hist(householdGAP, col = "red", main = "Global Active Power", xlab = "Global Active Power (kilowatts)", ylab = "Frequency")
+# Plot the data
+plot(householdPOSIXct, householdGAP, type = "l", xlab = "", ylab = "Global Active Power (kilowatts)")
 
 # Close the connection
 dev.off()
 
-print("plot1.png has been created.")
+print("plot2.png has been created.")
